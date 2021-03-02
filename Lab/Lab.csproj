@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net5.0-windows</TargetFramework>
-		<UseWPF>true</UseWPF>
-		<PackageIcon>GihanSoft.png</PackageIcon>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutputPath>bin\Debug\</OutputPath>
@@ -19,15 +19,8 @@
 		<!--<NoWarn>$(NoWarn),1573,1591,1712</NoWarn>-->
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Include="..\GihanSoft.png">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-	</ItemGroup>
+  <ItemGroup>
+	  <ProjectReference Include="..\GihanSoft.Navigation\GihanSoft.Navigation.csproj" />
+  </ItemGroup>
 
 </Project>

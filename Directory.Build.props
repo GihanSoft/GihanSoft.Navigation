@@ -28,7 +28,12 @@
 		-->
 		<NoWarn>$(NoWarn);CC0001;SA1000</NoWarn>
 		<NoError>$(NoError);CC0001;SA1000</NoError>
+
 	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">

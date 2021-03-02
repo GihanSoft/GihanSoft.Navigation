@@ -1,6 +1,9 @@
-﻿// <copyright file="PageHost.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// -----------------------------------------------------------------------
+// <copyright file="PageHost.xaml.cs" company="GihanSoft">
+// Copyright (c) 2021 GihanSoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
+// -----------------------------------------------------------------------
 
 namespace GihanSoft.Navigation
 {
