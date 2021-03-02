@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Markup;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,
@@ -17,3 +18,9 @@ using System.Windows;
  */
 
 [assembly: CLSCompliant(true)]
+
+[assembly: XmlnsDefinition(
+    "http://gihansoft.ir/netfx/xaml/navigation",
+    "GihanSoft.Navigation")]
+
+[assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation", "nav")]
