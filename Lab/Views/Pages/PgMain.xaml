@@ -1,0 +1,32 @@
+﻿<nav:Page x:Class="Lab.Views.Pages.PgMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Lab.Views.Pages"
+             xmlns:nav="http://gihansoft.ir/netfx/xaml/navigation"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <nav:Page.LeftToolBar>
+        <ToolBar>
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+            <Button Content="left toolbar button" />
+        </ToolBar>
+    </nav:Page.LeftToolBar>
+    <nav:Page.RightToolBar>
+        <ToolBar>
+            <Button Content="right toolbar button" />
+            <Button Content="right toolbar button" />
+            <Button Content="right toolbar button" />
+        </ToolBar>
+    </nav:Page.RightToolBar>
+    <Grid>
+        <TextBlock Text="Main page" />
+    </Grid>
+</nav:Page>

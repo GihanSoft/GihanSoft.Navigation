@@ -1,9 +1,13 @@
-// <copyright file="AssemblyInfo.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// -----------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="GihanSoft">
+// Copyright (c) 2021 GihanSoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
+// -----------------------------------------------------------------------
 
 using System;
 using System.Windows;
+using System.Windows.Markup;
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,
@@ -17,3 +21,9 @@ using System.Windows;
  */
 
 [assembly: CLSCompliant(true)]
+
+[assembly: XmlnsDefinition(
+    "http://gihansoft.ir/netfx/xaml/navigation",
+    "GihanSoft.Navigation")]
+
+[assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation", "nav")]

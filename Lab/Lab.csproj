@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>bin\Debug\</OutputPath>
+		<DocumentationFile>$(OutputPath)net5.0-windows\$(AssemblyName).xml</DocumentationFile>
+		<!--
+			Make sure any documentation comments which are included in code get checked for syntax during the build, but do
+			not report warnings for missing comments.
+
+			CS1573: Parameter 'parameter' has no matching param tag in the XML comment for 'parameter' (but other parameters do)
+			CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
+		-->
+		<!--<NoWarn>$(NoWarn),1573,1591,1712</NoWarn>-->
+	</PropertyGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\GihanSoft.Navigation\GihanSoft.Navigation.csproj" />
+  </ItemGroup>
+
+</Project>

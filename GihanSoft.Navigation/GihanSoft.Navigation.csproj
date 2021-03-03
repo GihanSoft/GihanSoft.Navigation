@@ -3,8 +3,20 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
+		<PackageIcon>GihanSoft.png</PackageIcon>
+		<Version>0.1.0-beta</Version>
+		<Authors>Muhammad Babayi</Authors>
+		<Company>GihanSoft</Company>
+		<Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>navigation, wpf, xaml</PackageTags>
+	</PropertyGroup>
 
-		<DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>bin\Debug\</OutputPath>
+		<DocumentationFile>$(OutputPath)net5.0-windows\$(AssemblyName).xml</DocumentationFile>
 		<!--
 			Make sure any documentation comments which are included in code get checked for syntax during the build, but do
 			not report warnings for missing comments.
@@ -14,5 +26,26 @@
 		-->
 		<!--<NoWarn>$(NoWarn),1573,1591,1712</NoWarn>-->
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\GihanSoft.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	  <None Include="..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="PageHost.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
 
 </Project>
