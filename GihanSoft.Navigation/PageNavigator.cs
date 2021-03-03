@@ -218,6 +218,7 @@ namespace GihanSoft.Navigation
                 throw new ArgumentNullException(nameof(page));
             }
 
+            page.PageNavigator = this;
             NavigatingEventArgs navigatingEventArgs = new(this.Current, page);
             this.Navigating?.Invoke(this, navigatingEventArgs);
             if (navigatingEventArgs.Cancel)
