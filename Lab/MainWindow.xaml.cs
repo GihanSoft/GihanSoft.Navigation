@@ -9,6 +9,8 @@ namespace Lab
 {
     using System.Windows;
 
+    using Lab.Views.Pages;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml .
     /// </summary>
@@ -20,6 +22,9 @@ namespace Lab
         public MainWindow()
         {
             this.InitializeComponent();
+
+            this.PageHost.PageNavigator = new GihanSoft.Navigation.PageNavigator(App.Current.ServiceProvider);
+            this.PageHost.PageNavigator.GoTo<PgMain>();
         }
     }
 }

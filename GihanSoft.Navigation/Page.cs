@@ -8,6 +8,7 @@
 namespace GihanSoft.Navigation
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -16,41 +17,33 @@ namespace GihanSoft.Navigation
     /// </summary>
     public class Page : UserControl, IDisposable
     {
-        private static readonly DependencyPropertyKey LeftToolBarPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(LeftToolBar),
-                typeof(StackPanel),
-                typeof(Page),
-                new PropertyMetadata((_, e) =>
-                {
-                    if(e.NewValue is not StackPanel stackPanel)
-                    {
-                        return;
-                    }
-
-                    stackPanel.Orientation = Orientation.Horizontal;
-                }));
-
         /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty LeftToolBarProperty = LeftToolBarPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey RightToolBarPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(RightToolBar),
-                typeof(StackPanel),
+        public static readonly DependencyProperty LeftToolBarProperty
+            = DependencyProperty.Register(
+                nameof(LeftToolBar),
+                typeof(ToolBar),
                 typeof(Page),
                 new PropertyMetadata((_, e) =>
                 {
-                    if (e.NewValue is not StackPanel stackPanel)
+                    if(e.NewValue is not ToolBar stackPanel)
                     {
                         return;
                     }
-
-                    stackPanel.Orientation = Orientation.Horizontal;
                 }));
 
         /// <summary>Identifies the <see cref="RightToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty RightToolBarProperty = RightToolBarPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty RightToolBarProperty
+            = DependencyProperty.Register(
+                nameof(RightToolBar),
+                typeof(ToolBar),
+                typeof(Page),
+                new PropertyMetadata((_, e) =>
+                {
+                    if (e.NewValue is not ToolBar stackPanel)
+                    {
+                        return;
+                    }
+                }));
 
         private bool disposedValue;
 
@@ -67,19 +60,19 @@ namespace GihanSoft.Navigation
         /// <summary>
         /// Gets or sets left tool bar of page.
         /// </summary>
-        public virtual StackPanel? LeftToolBar
+        public virtual ToolBar? LeftToolBar
         {
-            get => (StackPanel?)this.GetValue(LeftToolBarProperty);
-            protected set => this.SetValue(LeftToolBarPropertyKey, value);
+            get => (ToolBar?)this.GetValue(LeftToolBarProperty);
+            set => this.SetValue(LeftToolBarProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets left tool bar of page.
+        /// Gets or sets right tool bar of page.
         /// </summary>
-        public virtual StackPanel? RightToolBar
+        public virtual ToolBar? RightToolBar
         {
-            get => (StackPanel?)this.GetValue(RightToolBarProperty);
-            protected set => this.SetValue(RightToolBarPropertyKey, value);
+            get => (ToolBar?)this.GetValue(RightToolBarProperty);
+            set => this.SetValue(RightToolBarProperty, value);
         }
 
         /// <inheritdoc/>
