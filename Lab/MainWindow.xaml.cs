@@ -7,6 +7,7 @@
 
 namespace Lab
 {
+    using System.Threading.Tasks;
     using System.Windows;
 
     using Lab.Views.Pages;
@@ -24,7 +25,14 @@ namespace Lab
             this.InitializeComponent();
 
             this.PageHost.PageNavigator = new GihanSoft.Navigation.PageNavigator(App.Current.ServiceProvider);
-            this.PageHost.PageNavigator.GoTo<PgMain>();
+            this.Loaded += this.MainWindow_LoadedAsync;
+        }
+
+        private async void MainWindow_LoadedAsync(object sender, RoutedEventArgs e)
+        {
+            await this.PageHost.PageNavigator!.GoToAsync<PgMain>().ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(false);
+            await this.PageHost.PageNavigator!.GoToAsync<PgNext>().ConfigureAwait(false);
         }
     }
 }

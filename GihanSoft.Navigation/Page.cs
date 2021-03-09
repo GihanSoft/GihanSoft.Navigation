@@ -8,7 +8,7 @@
 namespace GihanSoft.Navigation
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -17,33 +17,27 @@ namespace GihanSoft.Navigation
     /// </summary>
     public class Page : UserControl, IDisposable
     {
+        private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
+        {
+            if (d is Page page && page.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(Page));
+            }
+        };
+
         /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty LeftToolBarProperty
-            = DependencyProperty.Register(
-                nameof(LeftToolBar),
-                typeof(ToolBar),
-                typeof(Page),
-                new PropertyMetadata((_, e) =>
-                {
-                    if(e.NewValue is not ToolBar stackPanel)
-                    {
-                        return;
-                    }
-                }));
+        public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
+            nameof(LeftToolBar),
+            typeof(ToolBar),
+            typeof(Page),
+            new(default(ToolBar), ThrowOnDisposed));
 
         /// <summary>Identifies the <see cref="RightToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty RightToolBarProperty
-            = DependencyProperty.Register(
-                nameof(RightToolBar),
-                typeof(ToolBar),
-                typeof(Page),
-                new PropertyMetadata((_, e) =>
-                {
-                    if (e.NewValue is not ToolBar stackPanel)
-                    {
-                        return;
-                    }
-                }));
+        public static readonly DependencyProperty RightToolBarProperty = DependencyProperty.Register(
+            nameof(RightToolBar),
+            typeof(ToolBar),
+            typeof(Page),
+            new(default(ToolBar), ThrowOnDisposed));
 
         private bool disposedValue;
 
@@ -51,11 +45,6 @@ namespace GihanSoft.Navigation
         /// Gets <see cref="Navigation.PageNavigator"/> of page.
         /// </summary>
         public PageNavigator? PageNavigator { get; internal set; }
-
-        /// <summary>
-        /// Gets or sets action to refresh page. called after navigation and going back and forward.
-        /// </summary>
-        public Action? Refresh { get; protected set; }
 
         /// <summary>
         /// Gets or sets left tool bar of page.
@@ -73,6 +62,15 @@ namespace GihanSoft.Navigation
         {
             get => (ToolBar?)this.GetValue(RightToolBarProperty);
             set => this.SetValue(RightToolBarProperty, value);
+        }
+
+        /// <summary>
+        /// refresh page. called after navigation and going back and forward.
+        /// </summary>
+        /// <returns>task of refresh.</returns>
+        public virtual Task RefreshAsync()
+        {
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
