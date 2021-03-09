@@ -28,7 +28,7 @@ use left & right toolbars like this:
 navigatoin:
 ```csharp
 //...
-this.PageHost.PageNavigator.GoTo<PgMain>();
+this.PageHost.PageNavigator.GoToAsync<PgMain>();
 //...
 ```
 YourPage.xaml:
