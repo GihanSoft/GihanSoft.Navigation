@@ -4,7 +4,7 @@
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<PackageIcon>GihanSoft.png</PackageIcon>
-		<Version>0.1.1-beta</Version>
+		<Version>0.2.0-beta</Version>
 		<Authors>Muhammad Babayi</Authors>
 		<Company>GihanSoft</Company>
 		<Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>

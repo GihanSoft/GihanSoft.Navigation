@@ -10,7 +10,9 @@ namespace GihanSoft.Navigation
     using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
-    using System.Windows;
+    using System.ComponentModel;
+    using System.Threading.Tasks;
+    using System.Windows.Threading;
 
     using GihanSoft.Navigation.Events;
 
@@ -19,66 +21,13 @@ namespace GihanSoft.Navigation
     /// <summary>
     /// Page navigator.
     /// </summary>
-    public class PageNavigator : DependencyObject
+    public class PageNavigator : DispatcherObject, INotifyPropertyChanged, IDisposable
     {
-        private static readonly DependencyPropertyKey CurrentPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(Current),
-                typeof(Page),
-                typeof(PageNavigator),
-                new PropertyMetadata());
-
-        /// <summary>Identifies the <see cref="Current"/> dependency property.</summary>
-        public static readonly DependencyProperty CurrentProperty = CurrentPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey CanGoBackPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(CanGoBack),
-                typeof(bool),
-                typeof(PageNavigator),
-                new PropertyMetadata(false));
-
-        /// <summary>Identifies the <see cref="CanGoBack"/> dependency property.</summary>
-        public static readonly DependencyProperty CanGoBackProperty
-            = CanGoBackPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey CanGoForwardPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(CanGoForward),
-                typeof(bool),
-                typeof(PageNavigator),
-                new PropertyMetadata(false));
-
-        /// <summary>Identifies the <see cref="CanGoForward"/> dependency property.</summary>
-        public static readonly DependencyProperty CanGoForwardProperty
-            = CanGoForwardPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey BackStackPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(BackStack),
-                typeof(IEnumerable<Page>),
-                typeof(PageNavigator),
-                new PropertyMetadata());
-
-        /// <summary>Identifies the <see cref="BackStack"/> dependency property.</summary>
-        public static readonly DependencyProperty BackStackProperty
-            = BackStackPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey ForwardStackPropertyKey
-            = DependencyProperty.RegisterReadOnly(
-                nameof(ForwardStack),
-                typeof(IEnumerable<Page>),
-                typeof(PageNavigator),
-                new PropertyMetadata());
-
-        /// <summary>Identifies the <see cref="ForwardStack"/> dependency property.</summary>
-        public static readonly DependencyProperty ForwardStackProperty
-            = ForwardStackPropertyKey.DependencyProperty;
-
         private readonly IServiceProvider serviceProvider;
 
         private readonly Stack<Page> backStack;
         private readonly Stack<Page> forwardStack;
+        private bool disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PageNavigator"/> class.
@@ -101,109 +50,62 @@ namespace GihanSoft.Navigation
         /// </summary>
         public event EventHandler<NavigatedEventArgs>? Navigated;
 
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         /// <summary>
         /// Gets a value indicating whether is there any page to go back.
         /// </summary>
-        public bool CanGoBack => (bool)this.GetValue(CanGoBackProperty);
+        public bool CanGoBack => this.backStack.Count > 0;
 
         /// <summary>
         /// Gets a value indicating whether is there any page to go forward.
         /// </summary>
-        public bool CanGoForward => (bool)this.GetValue(CanGoForwardProperty);
+        public bool CanGoForward => this.forwardStack.Count > 0;
 
         /// <summary>
         /// Gets back history pages stack.
         /// </summary>
-        public IEnumerable<Page> BackStack => (IEnumerable<Page>)this.GetValue(BackStackProperty);
+        public IReadOnlyList<Page> BackStack
+        {
+            get
+            {
+                return this.backStack.ToImmutableArray();
+            }
+        }
 
         /// <summary>
         /// Gets forward history pages stack.
         /// </summary>
-        public IEnumerable<Page> ForwardStack => (IEnumerable<Page>)this.GetValue(ForwardStackProperty);
+        public IReadOnlyList<Page> ForwardStack
+        {
+            get
+            {
+                return this.forwardStack.ToImmutableArray();
+            }
+        }
 
         /// <summary>
         /// Gets current page.
         /// </summary>
-        public Page Current => (Page)this.GetValue(CurrentProperty);
-
-        /// <summary>
-        /// go back.
-        /// </summary>
-        /// <returns>true on successful going back.</returns>
-        public bool GoBack()
-        {
-            if (!this.CanGoBack)
-            {
-                throw new NavigationException();
-            }
-
-            Page backPage = this.backStack.Peek();
-            NavigatingEventArgs navigatingEventArgs = new(this.Current, backPage);
-            this.Navigating?.Invoke(this, navigatingEventArgs);
-            if (navigatingEventArgs.Cancel)
-            {
-                return false;
-            }
-
-            this.backStack.Pop();
-            this.forwardStack.Push(this.Current);
-
-            this.SetValue(CurrentPropertyKey, backPage);
-            backPage.Refresh?.Invoke();
-            this.SetValue(CanGoBackPropertyKey, this.backStack.Count > 0);
-            this.SetValue(CanGoForwardPropertyKey, true);
-            this.SetValue(BackStackPropertyKey, this.backStack.ToImmutableArray());
-            this.SetValue(ForwardStackPropertyKey, this.forwardStack.ToImmutableArray());
-
-            this.Navigated?.Invoke(this, navigatingEventArgs);
-
-            return true;
-        }
-
-        /// <summary>
-        /// go forward.
-        /// </summary>
-        /// <returns>true on successful going forward.</returns>
-        public bool GoFroward()
-        {
-            if (!this.CanGoForward)
-            {
-                throw new NavigationException();
-            }
-
-            Page forwardPage = this.forwardStack.Peek();
-            NavigatingEventArgs navigatingEventArgs = new(this.Current, forwardPage);
-            this.Navigating?.Invoke(this, navigatingEventArgs);
-            if (navigatingEventArgs.Cancel)
-            {
-                return false;
-            }
-
-            this.forwardStack.Pop();
-            this.backStack.Push(this.Current);
-
-            this.SetValue(CurrentPropertyKey, forwardPage);
-            forwardPage.Refresh?.Invoke();
-            this.SetValue(CanGoBackPropertyKey, true);
-            this.SetValue(CanGoForwardPropertyKey, this.forwardStack.Count > 0);
-            this.SetValue(BackStackPropertyKey, this.backStack.ToImmutableArray());
-            this.SetValue(ForwardStackPropertyKey, this.forwardStack.ToImmutableArray());
-
-            this.Navigated?.Invoke(this, navigatingEventArgs);
-
-            return true;
-        }
+        public Page? Current { get; private set; }
 
         /// <summary>
         /// Create and navigate to a new page.
         /// </summary>
         /// <typeparam name="TPage">type of page to create and navigating to.</typeparam>
         /// <returns>true on successful navigation.</returns>
-        public bool GoTo<TPage>()
+        public Task<bool> GoToAsync<TPage>()
             where TPage : Page
         {
-            Page page = ActivatorUtilities.GetServiceOrCreateInstance<TPage>(this.serviceProvider);
-            return this.GoTo(page);
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(PageNavigator));
+            }
+
+            Page page = this.Dispatcher.Invoke(() =>
+                ActivatorUtilities.GetServiceOrCreateInstance<TPage>(this.serviceProvider));
+            return this.GoToAsync(page);
         }
 
         /// <summary>
@@ -211,25 +113,112 @@ namespace GihanSoft.Navigation
         /// </summary>
         /// <param name="page">page which navigating to. </param>
         /// <returns>true on successful navigation.</returns>
-        public bool GoTo(Page page)
+        public Task<bool> GoToAsync(Page page)
         {
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(PageNavigator));
+            }
+
             if (page is null)
             {
                 throw new ArgumentNullException(nameof(page));
             }
 
-            page.PageNavigator = this;
-            NavigatingEventArgs navigatingEventArgs = new(this.Current, page);
-            this.Navigating?.Invoke(this, navigatingEventArgs);
-            if (navigatingEventArgs.Cancel)
+            return this.GoToInternalAsync(page);
+        }
+
+        /// <summary>
+        /// go back.
+        /// </summary>
+        /// <returns>true on successful going back.</returns>
+        public Task<bool> GoBackAsync()
+        {
+            if (this.disposedValue)
             {
-                return false;
+                throw new ObjectDisposedException(nameof(PageNavigator));
             }
 
-            while (this.forwardStack.Count > 0)
+            if (!this.CanGoBack)
             {
-                Page disposePage = this.forwardStack.Pop();
-                disposePage.Dispose();
+                throw new NavigationException();
+            }
+
+            return this.GoBackInternalAsync();
+        }
+
+        /// <summary>
+        /// go forward.
+        /// </summary>
+        /// <returns>true on successful going forward.</returns>
+        public Task<bool> GoFrowardAsync()
+        {
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(PageNavigator));
+            }
+
+            if (!this.CanGoForward)
+            {
+                throw new NavigationException();
+            }
+
+            return this.GoFrowardInternalAsync();
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Real Dispose Function.
+        /// </summary>
+        /// <param name="disposing">true if managed dispose.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    while (this.forwardStack.TryPop(out Page? page))
+                    {
+                        page?.Dispose();
+                    }
+
+#pragma warning disable IDISP007 // Don't dispose injected.
+                    this.Current?.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
+                    while (this.backStack.TryPop(out Page? page))
+                    {
+                        page?.Dispose();
+                    }
+                }
+
+                this.disposedValue = true;
+            }
+        }
+
+        private async Task<bool> GoToInternalAsync(Page page)
+        {
+            page.PageNavigator = this;
+            NavigatingEventArgs? navigatingEventArgs = null;
+            if (this.Current is not null)
+            {
+                navigatingEventArgs = new(this.Current, page);
+                this.Navigating?.Invoke(this, navigatingEventArgs);
+                if (navigatingEventArgs.Cancel)
+                {
+                    return false;
+                }
+            }
+
+            while (this.forwardStack.TryPop(out Page? disposePage))
+            {
+                disposePage?.Dispose();
             }
 
             if (this.Current is not null)
@@ -237,16 +226,69 @@ namespace GihanSoft.Navigation
                 this.backStack.Push(this.Current);
             }
 
-            this.SetValue(CurrentPropertyKey, page);
-            page.Refresh?.Invoke();
-            this.SetValue(CanGoBackPropertyKey, this.backStack.Count > 0);
-            this.SetValue(CanGoForwardPropertyKey, false);
-            this.SetValue(BackStackPropertyKey, this.backStack.ToImmutableArray());
-            this.SetValue(ForwardStackPropertyKey, this.forwardStack.ToImmutableArray());
+            this.Current = page;
+            this.OnPropertyChanged();
+            await page.RefreshAsync().ConfigureAwait(false);
+
+            if (navigatingEventArgs is not null)
+            {
+                this.Navigated?.Invoke(this, navigatingEventArgs);
+            }
+
+            return true;
+        }
+
+        private async Task<bool> GoBackInternalAsync()
+        {
+            Page backPage = this.backStack.Peek();
+            NavigatingEventArgs navigatingEventArgs = new(this.Current!, backPage);
+            this.Navigating?.Invoke(this, navigatingEventArgs);
+            if (navigatingEventArgs.Cancel)
+            {
+                return false;
+            }
+
+            this.backStack.Pop();
+            this.forwardStack.Push(this.Current!);
+
+            this.Current = backPage;
+            this.OnPropertyChanged();
+            await backPage.RefreshAsync().ConfigureAwait(false);
 
             this.Navigated?.Invoke(this, navigatingEventArgs);
 
             return true;
+        }
+
+        private async Task<bool> GoFrowardInternalAsync()
+        {
+            Page forwardPage = this.forwardStack.Peek();
+            NavigatingEventArgs navigatingEventArgs = new(this.Current!, forwardPage);
+            this.Navigating?.Invoke(this, navigatingEventArgs);
+            if (navigatingEventArgs.Cancel)
+            {
+                return false;
+            }
+
+            this.forwardStack.Pop();
+            this.backStack.Push(this.Current!);
+
+            this.Current = forwardPage;
+            this.OnPropertyChanged();
+            await forwardPage.RefreshAsync().ConfigureAwait(false);
+
+            this.Navigated?.Invoke(this, navigatingEventArgs);
+
+            return true;
+        }
+
+        private void OnPropertyChanged()
+        {
+            this.PropertyChanged?.Invoke(this, new(nameof(this.Current)));
+            this.PropertyChanged?.Invoke(this, new(nameof(this.BackStack)));
+            this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoBack)));
+            this.PropertyChanged?.Invoke(this, new(nameof(this.ForwardStack)));
+            this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoForward)));
         }
     }
 }
