@@ -105,26 +105,6 @@ namespace GihanSoft.Navigation
 
             Page page = this.Dispatcher.Invoke(() =>
                 ActivatorUtilities.GetServiceOrCreateInstance<TPage>(this.serviceProvider));
-            return this.GoToAsync(page);
-        }
-
-        /// <summary>
-        /// Create and navigate to a new page.
-        /// </summary>
-        /// <param name="page">page which navigating to. </param>
-        /// <returns>true on successful navigation.</returns>
-        public Task<bool> GoToAsync(Page page)
-        {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(nameof(PageNavigator));
-            }
-
-            if (page is null)
-            {
-                throw new ArgumentNullException(nameof(page));
-            }
-
             return this.GoToInternalAsync(page);
         }
 
