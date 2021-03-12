@@ -42,11 +42,6 @@ namespace GihanSoft.Navigation
         private bool disposedValue;
 
         /// <summary>
-        /// Gets <see cref="Navigation.PageNavigator"/> of page.
-        /// </summary>
-        public PageNavigator? PageNavigator { get; internal set; }
-
-        /// <summary>
         /// Gets or sets left tool bar of page.
         /// </summary>
         public virtual ToolBar? LeftToolBar
@@ -70,6 +65,11 @@ namespace GihanSoft.Navigation
         /// <returns>task of refresh.</returns>
         public virtual Task RefreshAsync()
         {
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(Page));
+            }
+
             return Task.CompletedTask;
         }
 

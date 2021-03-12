@@ -5,25 +5,47 @@
 ## usage:
 
 ```xml
-<nav:PageHost 
-    xmlns:nav="http://gihansoft.ir/netfx/xaml/navigation"
-    Name="PageHost" />
+<Window x:Class="Lab.MainWindow"
+    ...
+    ...
+    Name="This">
 ```
 
 **Important!!** do this where used `PageHost`:
 ```csharp
+    private static readonly DependencyPropertyKey PageNavigatorPropertyKey = DependencyProperty.RegisterReadOnly(
+            nameof(PageNavigator),
+            typeof(PageNavigator),
+            typeof(MainWindow),
+            new PropertyMetadata(default(PageNavigator)));
+
+    /// <summary>Identifies the <see cref="PageNavigator"/> dependency property.</summary>
+    public static readonly DependencyProperty PageNavigatorProperty = PageNavigatorPropertyKey.DependencyProperty;
+
     public MainWindow()
     {
         this.InitializeComponent();
-        //...
-        this.PageHost.PageNavigator = new GihanSoft.Navigation.PageNavigator(App.Current.ServiceProvider);
-        //...
+        ...
+        ...
+        // put a service provider in app.xaml.cs
+        this.PageNavigator = new PageNavigator(App.Current.ServiceProvider);
+        ...
+        ...
+    }
+
+    /// <summary>
+    /// Gets Page Navigator.
+    /// </summary>
+    public PageNavigator? PageNavigator
+    {
+        get => (PageNavigator?)this.GetValue(PageNavigatorProperty);
+        private set => this.SetValue(PageNavigatorPropertyKey, value);
     }
 ```
 
 use left & right toolbars like this:
 ```xml
-<ContentControl Grid.Column="1" Content="{Binding PageNavigator.Current.LeftToolBar, ElementName=PageHost}" />
+<ContentControl Grid.Column="1" Content="{Binding PageNavigator.CurrentPage.LeftToolBar, ElementName=This}" />
 ```
 navigatoin:
 ```csharp
@@ -41,5 +63,6 @@ YourPage.xaml:
         <ToolBar>
         </ToolBar>
     </nav:Page.LeftToolBar>
+    <!-- page content -->
 </nav:Page>
 ```
