@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0-windows</TargetFramework>
+		<TargetFrameworks>net5.0-windows;net462</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<PackageIcon>GihanSoft.png</PackageIcon>
-		<Version>0.2.2-beta</Version>
+		<Version>0.3.0-beta</Version>
 		<Authors>Muhammad Babayi</Authors>
 		<Company>GihanSoft</Company>
 		<Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
@@ -12,6 +12,7 @@
 		<RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>navigation, wpf, xaml</PackageTags>
+		<PackageReleaseNotes>0.3.0-beta: add support for .net framework (4.6.2 add newer)</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,8 +39,10 @@
 	  </None>
 	</ItemGroup>
 
-	<ItemGroup>
+    <ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	</ItemGroup>
-
+    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+	  <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    </ItemGroup>
 </Project>
