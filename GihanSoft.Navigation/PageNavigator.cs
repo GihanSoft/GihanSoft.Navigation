@@ -164,16 +164,29 @@ namespace GihanSoft.Navigation
             {
                 if (disposing)
                 {
+#if NET5_0_OR_GREATER
                     while (this.forwardStack.TryPop(out Page? page))
                     {
                         page?.Dispose();
                     }
-
+#else
+                    while (this.forwardStack.Count > 0)
+                    {
+                        this.forwardStack.Pop()?.Dispose();
+                    }
+#endif
                     this.CurrentPage?.Dispose();
+#if NET5_0_OR_GREATER
                     while (this.backStack.TryPop(out Page? page))
                     {
                         page?.Dispose();
                     }
+#else
+                    while (this.backStack.Count > 0)
+                    {
+                        this.backStack.Pop()?.Dispose();
+                    }
+#endif
                 }
 
                 this.disposedValue = true;
@@ -193,10 +206,17 @@ namespace GihanSoft.Navigation
                 }
             }
 
+#if NET5_0_OR_GREATER
             while (this.forwardStack.TryPop(out Page? disposePage))
             {
                 disposePage?.Dispose();
             }
+#else
+            while (this.forwardStack.Count > 0)
+            {
+                this.forwardStack.Pop()?.Dispose();
+            }
+#endif
 
             if (this.CurrentPage is not null)
             {

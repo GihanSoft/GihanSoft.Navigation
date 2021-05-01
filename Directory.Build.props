@@ -46,17 +46,12 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="Amadevus.RecordGenerator.Analyzers" Version="0.6.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-
 		<PackageReference Include="AsyncFixer" Version="1.5.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitivex</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="4.0.0">
+		<PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -88,12 +83,12 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.19.0.28253">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.22.0.31243">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.0.0">
+		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.1.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
