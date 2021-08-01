@@ -12,6 +12,7 @@ namespace GihanSoft.Navigation
     using System.Collections.Immutable;
     using System.ComponentModel;
     using System.Threading.Tasks;
+    using System.Windows.Input;
     using System.Windows.Threading;
 
     using GihanSoft.Navigation.Events;
@@ -38,6 +39,14 @@ namespace GihanSoft.Navigation
             this.serviceProvider = serviceProvider;
             this.backStack = new Stack<Page>();
             this.forwardStack = new Stack<Page>();
+
+            GoBackCommand = new SimpleCommand(
+                () => GoBackAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+                () => CanGoBack);
+
+            GoForwardCommand = new SimpleCommand(
+                () => GoForwardAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+                () => CanGoForward);
         }
 
         /// <summary>
@@ -52,6 +61,16 @@ namespace GihanSoft.Navigation
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Go back command.
+        /// </summary>
+        public ICommand GoBackCommand { get; }
+
+        /// <summary>
+        /// Go forward command.
+        /// </summary>
+        public ICommand GoForwardCommand { get; }
 
         /// <summary>
         /// Gets a value indicating whether is there any page to go back.
@@ -131,7 +150,7 @@ namespace GihanSoft.Navigation
         /// go forward.
         /// </summary>
         /// <returns>true on successful going forward.</returns>
-        public Task<bool> GoFrowardAsync()
+        public Task<bool> GoForwardAsync()
         {
             if (this.disposedValue)
             {
@@ -143,7 +162,7 @@ namespace GihanSoft.Navigation
                 throw new NavigationException();
             }
 
-            return this.GoFrowardInternalAsync();
+            return this.GoForwardInternalAsync();
         }
 
         /// <inheritdoc/>
@@ -257,7 +276,7 @@ namespace GihanSoft.Navigation
             return true;
         }
 
-        private async Task<bool> GoFrowardInternalAsync()
+        private async Task<bool> GoForwardInternalAsync()
         {
             Page forwardPage = this.forwardStack.Peek();
             NavigatingEventArgs navigatingEventArgs = new(this.CurrentPage!, forwardPage);
@@ -286,6 +305,9 @@ namespace GihanSoft.Navigation
             this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoBack)));
             this.PropertyChanged?.Invoke(this, new(nameof(this.ForwardStack)));
             this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoForward)));
+
+            (GoBackCommand as SimpleCommand)?.OnCanExecuteChanged();
+            (GoForwardCommand as SimpleCommand)?.OnCanExecuteChanged();
         }
     }
 }

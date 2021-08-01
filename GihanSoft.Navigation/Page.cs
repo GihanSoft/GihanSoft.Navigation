@@ -17,6 +17,7 @@ namespace GihanSoft.Navigation
     /// </summary>
     public class Page : UserControl, IDisposable
     {
+
         private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
         {
             if (d is Page page && page.disposedValue)
@@ -24,6 +25,15 @@ namespace GihanSoft.Navigation
                 throw new ObjectDisposedException(nameof(Page));
             }
         };
+
+        private static readonly DependencyPropertyKey TitlePropertyKey = DependencyProperty.RegisterReadOnly(
+            nameof(Title),
+            typeof(string),
+            typeof(Page),
+            new PropertyMetadata(default(string)));
+
+        /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
+        public static readonly DependencyProperty TitleProperty = TitlePropertyKey.DependencyProperty;
 
         /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
         public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
@@ -40,6 +50,23 @@ namespace GihanSoft.Navigation
             new(default(ToolBar), ThrowOnDisposed));
 
         private bool disposedValue;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Page"/> class.
+        /// </summary>
+        public Page()
+        {
+            Title = GetType().Name;
+        }
+
+        /// <summary>
+        /// Gets title of page.
+        /// </summary>
+        public virtual string? Title
+        {
+            get => (string?)this.GetValue(TitleProperty);
+            private set => this.SetValue(TitlePropertyKey, value);
+        }
 
         /// <summary>
         /// Gets or sets left tool bar of page.
