@@ -17,7 +17,6 @@ namespace GihanSoft.Navigation
     /// </summary>
     public class Page : UserControl, IDisposable
     {
-
         private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
         {
             if (d is Page page && page.disposedValue)
@@ -56,7 +55,7 @@ namespace GihanSoft.Navigation
         /// </summary>
         public Page()
         {
-            Title = GetType().Name;
+            this.Title = this.GetType().Name;
         }
 
         /// <summary>

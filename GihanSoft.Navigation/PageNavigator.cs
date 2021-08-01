@@ -40,13 +40,13 @@ namespace GihanSoft.Navigation
             this.backStack = new Stack<Page>();
             this.forwardStack = new Stack<Page>();
 
-            GoBackCommand = new SimpleCommand(
-                () => GoBackAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
-                () => CanGoBack);
+            this.GoBackCommand = new SimpleCommand(
+                () => this.GoBackAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+                () => this.CanGoBack);
 
-            GoForwardCommand = new SimpleCommand(
-                () => GoForwardAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
-                () => CanGoForward);
+            this.GoForwardCommand = new SimpleCommand(
+                () => this.GoForwardAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+                () => this.CanGoForward);
         }
 
         /// <summary>
@@ -63,12 +63,12 @@ namespace GihanSoft.Navigation
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Go back command.
+        /// Gets Go back command.
         /// </summary>
         public ICommand GoBackCommand { get; }
 
         /// <summary>
-        /// Go forward command.
+        /// Gets Go forward command.
         /// </summary>
         public ICommand GoForwardCommand { get; }
 
@@ -306,8 +306,8 @@ namespace GihanSoft.Navigation
             this.PropertyChanged?.Invoke(this, new(nameof(this.ForwardStack)));
             this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoForward)));
 
-            (GoBackCommand as SimpleCommand)?.OnCanExecuteChanged();
-            (GoForwardCommand as SimpleCommand)?.OnCanExecuteChanged();
+            (this.GoBackCommand as SimpleCommand)?.OnCanExecuteChanged();
+            (this.GoForwardCommand as SimpleCommand)?.OnCanExecuteChanged();
         }
     }
 }
