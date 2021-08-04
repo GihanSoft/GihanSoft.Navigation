@@ -55,7 +55,7 @@ namespace GihanSoft.Navigation
         /// </summary>
         public Page()
         {
-            this.Title = this.GetType().Name;
+            this.SetValue(TitlePropertyKey, this.GetType().Name);
         }
 
         /// <summary>

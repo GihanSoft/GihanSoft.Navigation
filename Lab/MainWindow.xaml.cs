@@ -25,9 +25,7 @@ namespace Lab
             typeof(PageNavigator),
             typeof(MainWindow),
             new PropertyMetadata(default(PageNavigator), (d, _) =>
-            {
-                (d as MainWindow) !.ThrowIfDisposed();
-            }));
+                (d as MainWindow)?.ThrowIfDisposed()));
 
         /// <summary>Identifies the <see cref="PageNavigator"/> dependency property.</summary>
         public static readonly DependencyProperty PageNavigatorProperty = PageNavigatorPropertyKey.DependencyProperty;
@@ -71,10 +69,8 @@ namespace Lab
         {
             await this.PageNavigator!.GoToAsync<PgMain>().ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
-            await this.Dispatcher.Invoke(async () =>
-            {
-                await this.PageNavigator!.GoToAsync<PgNext>().ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            await this.Dispatcher.Invoke(() => this.PageNavigator!.GoToAsync<PgNext>())
+                .ConfigureAwait(false);
         }
 
         private void ThrowIfDisposed()

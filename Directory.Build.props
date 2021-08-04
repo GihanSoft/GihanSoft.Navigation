@@ -51,15 +51,26 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<!--check-->
-		<PackageReference Include="Particular.CodeRules" Version="0.8.0">
+
+		<PackageReference Include="Roslynator.Analyzers" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
+		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.1.0">
 			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.2.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+
+
+		<PackageReference Include="RefactoringEssentials" Version="5.6.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 
 		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -67,12 +78,12 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.22.0.31243">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.26.0.34506">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.1.0">
+		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.2.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
