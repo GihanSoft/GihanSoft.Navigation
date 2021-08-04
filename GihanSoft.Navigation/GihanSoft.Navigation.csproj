@@ -4,21 +4,24 @@
     <TargetFrameworks>net5.0-windows;net462</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <PackageIcon>GihanSoft.png</PackageIcon>
-    <Version>0.4.1-beta</Version>
+    <Version>0.4.2-beta</Version>
     <Authors>Muhammad Babayi</Authors>
     <Company>GihanSoft</Company>
     <Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>navigation, wpf, xaml</PackageTags>
+    <PackageTags>navigation, WPF, XAML</PackageTags>
     <PackageReleaseNotes>0.4.0-beta:
 * add Go[Back/Forward]Command
 * add Title to Page
 * fix typo GoForward
 
 0.4.1-beta:
-change title set access to public</PackageReleaseNotes>
+change title set access to public
+
+0.4.2-beta:
+change page constructor to not use virtual property Title for default value but Dependency property</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

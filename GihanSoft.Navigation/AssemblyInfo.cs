@@ -26,4 +26,10 @@ using System.Windows.Markup;
     "http://gihansoft.ir/netfx/xaml/navigation",
     "GihanSoft.Navigation")]
 
-[assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation", "nav")]
+[assembly: XmlnsDefinition(
+    "http://gihansoft.ir/netfx/xaml/navigation/events",
+    "GihanSoft.Navigation.Events")]
+
+[assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation", "gnav")]
+
+[assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation/events", "gnavevents")]
