@@ -64,7 +64,7 @@ namespace GihanSoft.Navigation
         public virtual string? Title
         {
             get => (string?)this.GetValue(TitleProperty);
-            private set => this.SetValue(TitlePropertyKey, value);
+            set => this.SetValue(TitlePropertyKey, value);
         }
 
         /// <summary>
