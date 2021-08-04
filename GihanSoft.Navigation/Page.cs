@@ -59,7 +59,7 @@ namespace GihanSoft.Navigation
         }
 
         /// <summary>
-        /// Gets title of page.
+        /// Gets or sets title of page.
         /// </summary>
         public virtual string? Title
         {
