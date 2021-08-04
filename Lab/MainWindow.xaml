@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lab"
         xmlns:nav="http://gihansoft.ir/netfx/xaml/navigation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="{Binding PageNavigator.CurrentPage.Title, ElementName=This}" Height="450" Width="800"
         Name="This">
     <Grid>
         <Grid.RowDefinitions>
