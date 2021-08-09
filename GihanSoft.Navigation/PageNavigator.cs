@@ -128,6 +128,34 @@ namespace GihanSoft.Navigation
         }
 
         /// <summary>
+        /// Create and navigate to a new page.
+        /// </summary>
+        /// <param name="pageType">type of page to create and navigating to.</param>
+        /// <returns>true on successful navigation.</returns>
+        public Task<bool> GoToAsync(Type pageType)
+        {
+            if (this.disposedValue)
+            {
+                throw new ObjectDisposedException(nameof(PageNavigator));
+            }
+
+            if (pageType is null)
+            {
+                throw new ArgumentNullException(nameof(pageType));
+            }
+
+            if (!pageType.IsSubclassOf(typeof(Page)))
+            {
+                throw new ArgumentException("invalid type", nameof(pageType));
+            }
+
+            Page page = this.Dispatcher.Invoke(() =>
+                (Page)ActivatorUtilities.GetServiceOrCreateInstance(this.serviceProvider, pageType));
+
+            return this.GoToInternalAsync(page);
+        }
+
+        /// <summary>
         /// go back.
         /// </summary>
         /// <returns>true on successful going back.</returns>
