@@ -25,14 +25,12 @@ namespace GihanSoft.Navigation
             }
         };
 
-        private static readonly DependencyPropertyKey TitlePropertyKey = DependencyProperty.RegisterReadOnly(
+        /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
             nameof(Title),
             typeof(string),
             typeof(Page),
-            new PropertyMetadata(default(string)));
-
-        /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
-        public static readonly DependencyProperty TitleProperty = TitlePropertyKey.DependencyProperty;
+            new PropertyMetadata(default(string?), ThrowOnDisposed));
 
         /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
         public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
@@ -55,7 +53,7 @@ namespace GihanSoft.Navigation
         /// </summary>
         public Page()
         {
-            this.SetValue(TitlePropertyKey, this.GetType().Name);
+            this.SetValue(TitleProperty, this.GetType().Name);
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace GihanSoft.Navigation
         public virtual string? Title
         {
             get => (string?)this.GetValue(TitleProperty);
-            set => this.SetValue(TitlePropertyKey, value);
+            set => this.SetValue(TitleProperty, value);
         }
 
         /// <summary>
