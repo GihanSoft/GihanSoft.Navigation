@@ -7,7 +7,6 @@
 
 namespace Lab.Views.Pages
 {
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Controls;
 
@@ -25,7 +24,7 @@ namespace Lab.Views.Pages
         }
 
         /// <inheritdoc/>
-        public async override Task RefreshAsync()
+        public override async Task RefreshAsync()
         {
             for (int i = 5; i > 0; i--)
             {

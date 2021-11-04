@@ -5,8 +5,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace GihanSoft.Navigation.Events
+namespace GihanSoft.Navigation.Abstraction.Events.Args
 {
+    using GihanSoft.Navigation.Abstraction;
+
     /// <summary>
     /// Arguments of Navigating event.
     /// </summary>
@@ -17,7 +19,7 @@ namespace GihanSoft.Navigation.Events
         /// </summary>
         /// <param name="current">current page.</param>
         /// <param name="future">future page.</param>
-        public NavigatingEventArgs(Page current, Page future)
+        public NavigatingEventArgs(IPage current, IPage future)
             : base(current, future)
         {
         }

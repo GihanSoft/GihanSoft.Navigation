@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace GihanSoft.Navigation
+namespace GihanSoft.Navigation.WPF
 {
     using System;
     using System.Collections.Generic;
@@ -15,14 +15,16 @@ namespace GihanSoft.Navigation
     using System.Windows.Input;
     using System.Windows.Threading;
 
-    using GihanSoft.Navigation.Events;
+    using GihanSoft.Navigation.Abstraction;
+    using GihanSoft.Navigation.Abstraction.Events;
+    using GihanSoft.Navigation.Abstraction.Events.Args;
 
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Page navigator.
     /// </summary>
-    public class PageNavigator : DispatcherObject, INotifyPropertyChanged, IDisposable
+    public class PageNavigator : DispatcherObject, IPageNavigator
     {
         private readonly IServiceProvider serviceProvider;
 
@@ -40,24 +42,24 @@ namespace GihanSoft.Navigation
             this.backStack = new Stack<Page>();
             this.forwardStack = new Stack<Page>();
 
-            this.GoBackCommand = new SimpleCommand(
-                () => this.GoBackAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+            this.GoBackCommand = new ActionCommand(
+                () => _ = this.GoBackAsync().ConfigureAwait(false),
                 () => this.CanGoBack);
 
-            this.GoForwardCommand = new SimpleCommand(
-                () => this.GoForwardAsync().ConfigureAwait(false).GetAwaiter().GetResult(),
+            this.GoForwardCommand = new ActionCommand(
+                () => _ = this.GoForwardAsync().ConfigureAwait(false),
                 () => this.CanGoForward);
         }
 
         /// <summary>
         /// Fires before navigation. Can be used to cancel navigation.
         /// </summary>
-        public event EventHandler<NavigatingEventArgs>? Navigating;
+        public event EventHandlerAsync<IPageNavigator, NavigatingEventArgs>? Navigating;
 
         /// <summary>
         /// Fires after navigation.
         /// </summary>
-        public event EventHandler<NavigatedEventArgs>? Navigated;
+        public event EventHandlerAsync<IPageNavigator, NavigatedEventArgs>? Navigated;
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -85,29 +87,17 @@ namespace GihanSoft.Navigation
         /// <summary>
         /// Gets back history pages stack.
         /// </summary>
-        public IReadOnlyList<Page> BackStack
-        {
-            get
-            {
-                return this.backStack.ToImmutableArray();
-            }
-        }
+        public IReadOnlyList<IPage> BackStack => this.backStack.ToImmutableArray();
 
         /// <summary>
         /// Gets forward history pages stack.
         /// </summary>
-        public IReadOnlyList<Page> ForwardStack
-        {
-            get
-            {
-                return this.forwardStack.ToImmutableArray();
-            }
-        }
+        public IReadOnlyList<IPage> ForwardStack => this.forwardStack.ToImmutableArray();
 
         /// <summary>
         /// Gets current page.
         /// </summary>
-        public Page? CurrentPage { get; private set; }
+        public IPage? CurrentPage { get; private set; }
 
         /// <summary>
         /// Create and navigate to a new page.
@@ -115,16 +105,20 @@ namespace GihanSoft.Navigation
         /// <typeparam name="TPage">type of page to create and navigating to.</typeparam>
         /// <returns>true on successful navigation.</returns>
         public Task<bool> GoToAsync<TPage>()
-            where TPage : Page
+            where TPage : IPage
         {
             if (this.disposedValue)
             {
                 throw new ObjectDisposedException(nameof(PageNavigator));
             }
 
-            Page page = this.Dispatcher.Invoke(() =>
-                ActivatorUtilities.GetServiceOrCreateInstance<TPage>(this.serviceProvider));
-            return this.GoToInternalAsync(page);
+            IPage page = this.Dispatcher.Invoke(() => this.serviceProvider.GetRequiredService<TPage>());
+            if (page is not Page pg)
+            {
+                throw new NavigationException();
+            }
+
+            return this.GoToInternalAsync(pg);
         }
 
         /// <summary>
@@ -196,7 +190,6 @@ namespace GihanSoft.Navigation
         /// <inheritdoc/>
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
@@ -267,7 +260,8 @@ namespace GihanSoft.Navigation
 
             if (this.CurrentPage is not null)
             {
-                this.backStack.Push(this.CurrentPage);
+                var pg = this.CurrentPage as Page;
+                this.backStack.Push(pg!);
             }
 
             this.CurrentPage = page;
@@ -276,7 +270,8 @@ namespace GihanSoft.Navigation
 
             if (navigatingEventArgs is not null)
             {
-                this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs));
+                await this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs) ?? Task.CompletedTask)
+                    .ConfigureAwait(false);
             }
 
             return true;
@@ -293,13 +288,15 @@ namespace GihanSoft.Navigation
             }
 
             this.backStack.Pop();
-            this.forwardStack.Push(this.CurrentPage!);
+            var pg = this.CurrentPage as Page;
+            this.forwardStack.Push(pg!);
 
             this.CurrentPage = backPage;
             this.OnPropertyChanged();
             await backPage.RefreshAsync().ConfigureAwait(false);
 
-            this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs));
+            await this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs) ?? Task.CompletedTask)
+                .ConfigureAwait(false);
 
             return true;
         }
@@ -315,13 +312,15 @@ namespace GihanSoft.Navigation
             }
 
             this.forwardStack.Pop();
-            this.backStack.Push(this.CurrentPage!);
+            var pg = this.CurrentPage as Page;
+            this.backStack.Push(pg!);
 
             this.CurrentPage = forwardPage;
             this.OnPropertyChanged();
             await forwardPage.RefreshAsync().ConfigureAwait(false);
 
-            this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs));
+            await this.Dispatcher.Invoke(() => this.Navigated?.Invoke(this, navigatingEventArgs) ?? Task.CompletedTask)
+                .ConfigureAwait(false);
 
             return true;
         }
@@ -334,8 +333,8 @@ namespace GihanSoft.Navigation
             this.PropertyChanged?.Invoke(this, new(nameof(this.ForwardStack)));
             this.PropertyChanged?.Invoke(this, new(nameof(this.CanGoForward)));
 
-            (this.GoBackCommand as SimpleCommand)?.OnCanExecuteChanged();
-            (this.GoForwardCommand as SimpleCommand)?.OnCanExecuteChanged();
+            (this.GoBackCommand as ActionCommand)?.OnCanExecuteChanged();
+            (this.GoForwardCommand as ActionCommand)?.OnCanExecuteChanged();
         }
     }
 }

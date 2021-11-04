@@ -20,7 +20,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="..\GihanSoft.Navigation\GihanSoft.Navigation.csproj" />
+	  <ProjectReference Include="..\GihanSoft.Navigation.WPF\GihanSoft.Navigation.WPF.csproj" />
   </ItemGroup>
 
 </Project>

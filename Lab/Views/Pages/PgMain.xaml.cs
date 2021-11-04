@@ -7,8 +7,6 @@
 
 namespace Lab.Views.Pages
 {
-    using System.Windows.Controls;
-
     /// <summary>
     /// Interaction logic for PgMain.xaml .
     /// </summary>

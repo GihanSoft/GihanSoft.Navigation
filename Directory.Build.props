@@ -3,6 +3,21 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 
+		<!--package-->
+		<PackageIcon>GihanSoft.png</PackageIcon>
+		<Version>0.6.0-beta</Version>
+		<Authors>Muhammad Babayi</Authors>
+		<Company>GihanSoft</Company>
+		<Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>navigation, WPF, XAML</PackageTags>
+		<PackageReleaseNotes>
+			0.6.0-beta:
+			Added abstraction
+		</PackageReleaseNotes>
+
 		<!--disable later-->
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -35,62 +50,52 @@
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<PackageReference Include="AsyncFixer" Version="1.5.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitivex</IncludeAssets>
-		</PackageReference>
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
 
-		<PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0">
+		<PackageReference Include="WpfAnalyzers" Version="*" Condition="$(UseWPF)=='True'">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="IDisposableAnalyzers" Version="3.4.13">
+		<PackageReference Include="AsyncFixer" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-
-		<PackageReference Include="Roslynator.Analyzers" Version="3.2.0">
+		<PackageReference Include="IDisposableAnalyzers" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.1.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-
-		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.2.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-
-
-		<PackageReference Include="RefactoringEssentials" Version="5.6.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+		<PackageReference Include="Roslynator.Analyzers" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.26.0.34506">
+		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.2.1">
+		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="WpfAnalyzers" Version="3.5.4">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+
+		<PackageReference Include="SecurityCodeScan.VS2019" Version="*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference Include="StyleCop.Analyzers" Version="*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
 	</ItemGroup>
 </Project>

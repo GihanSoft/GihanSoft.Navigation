@@ -11,7 +11,8 @@ namespace Lab
     using System.Threading.Tasks;
     using System.Windows;
 
-    using GihanSoft.Navigation;
+    using GihanSoft.Navigation.Abstraction;
+    using GihanSoft.Navigation.WPF;
 
     using Lab.Views.Pages;
 
@@ -44,6 +45,11 @@ namespace Lab
         }
 
         /// <summary>
+        /// Gets Interface API.
+        /// </summary>
+        public IPageNavigator IPageNavigator => this.PageNavigator!;
+
+        /// <summary>
         /// Gets Page Navigator.
         /// </summary>
         public PageNavigator? PageNavigator
@@ -69,7 +75,7 @@ namespace Lab
         {
             await this.PageNavigator!.GoToAsync<PgMain>().ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(false);
-            await this.Dispatcher.Invoke(() => this.PageNavigator!.GoToAsync<PgNext>())
+            await this.Dispatcher.Invoke(() => this.IPageNavigator!.GoToAsync<PgNext>())
                 .ConfigureAwait(false);
         }
 

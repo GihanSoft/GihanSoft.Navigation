@@ -5,9 +5,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace GihanSoft.Navigation.Events
+namespace GihanSoft.Navigation.Abstraction.Events.Args
 {
     using System;
+
+    using GihanSoft.Navigation.Abstraction;
 
     /// <summary>
     /// Arguments of Navigated Event.
@@ -19,7 +21,7 @@ namespace GihanSoft.Navigation.Events
         /// </summary>
         /// <param name="previous">previous page.</param>
         /// <param name="current">current page.</param>
-        public NavigatedEventArgs(Page previous, Page current)
+        public NavigatedEventArgs(IPage previous, IPage current)
         {
             this.Previous = previous;
             this.Current = current;
@@ -28,11 +30,11 @@ namespace GihanSoft.Navigation.Events
         /// <summary>
         /// Gets previous page.
         /// </summary>
-        public Page Previous { get; }
+        public IPage Previous { get; }
 
         /// <summary>
         /// Gets current page.
         /// </summary>
-        public Page Current { get; }
+        public IPage Current { get; }
     }
 }
