@@ -50,6 +50,17 @@
 		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\GihanSoft.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(Configuration)'=='Debug'">
 
 		<PackageReference Include="WpfAnalyzers" Version="*" Condition="$(UseWPF)=='True'">
