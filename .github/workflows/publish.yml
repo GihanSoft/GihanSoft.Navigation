@@ -17,12 +17,19 @@ jobs:
       #  dotnet-version: 5.0.3
 
       # Publish
-      - name: publish on version change
-        id: publish_nuget
+      - name: publish Abstraction
+        id: publish_nuget_Abstraction
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: GihanSoft.Navigation.Abstraction/GihanSoft.Navigation.Abstraction.csproj
+          NUGET_KEY: ${{secrets.NUGET_KEY}}
+      
+      - name: publish WPF
+        id: publish_nuget_WPF
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: GihanSoft.Navigation/GihanSoft.Navigation.csproj
+          PROJECT_FILE_PATH: GihanSoft.Navigation.WPF/GihanSoft.Navigation.WPF.csproj
 
           # NuGet package id, used for version detection & defaults to project name
           # PACKAGE_NAME: Core
