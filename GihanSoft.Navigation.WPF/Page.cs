@@ -5,17 +5,19 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace GihanSoft.Navigation
+namespace GihanSoft.Navigation.WPF
 {
     using System;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
 
+    using GihanSoft.Navigation.Abstraction;
+
     /// <summary>
     /// Page type to use as base of navigation pages.
     /// </summary>
-    public class Page : UserControl, IDisposable
+    public class Page : UserControl, IPage
     {
         private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
         {

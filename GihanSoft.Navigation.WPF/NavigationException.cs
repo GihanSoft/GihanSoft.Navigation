@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace GihanSoft.Navigation
+namespace GihanSoft.Navigation.WPF
 {
     using System;
     using System.Runtime.Serialization;

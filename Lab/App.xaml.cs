@@ -11,6 +11,8 @@ namespace Lab
     using System.Windows;
     using System.Windows.Markup;
 
+    using Lab.Views.Pages;
+
     /// <summary>
     /// Interaction logic for App.xaml .
     /// </summary>
@@ -19,9 +21,13 @@ namespace Lab
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "...")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP004:Don't ignore created IDisposable.", Justification = "...")]
         public App()
         {
             ServiceProviders serviceProviders = new();
+            serviceProviders.AddService(typeof(PgMain), new PgMain());
+            serviceProviders.AddService(typeof(PgNext), new PgNext());
             this.ServiceProvider = serviceProviders;
         }
 

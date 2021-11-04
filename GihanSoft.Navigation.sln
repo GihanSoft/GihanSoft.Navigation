@@ -3,10 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GihanSoft.Navigation", "GihanSoft.Navigation\GihanSoft.Navigation.csproj", "{5E515FB6-407C-499C-AB28-69242441C5BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GihanSoft.Navigation.WPF", "GihanSoft.Navigation.WPF\GihanSoft.Navigation.WPF.csproj", "{5E515FB6-407C-499C-AB28-69242441C5BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{006FF192-B819-473C-9DF1-C66330F21C7E}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		GihanSoft.png = GihanSoft.png
 		LICENSE = LICENSE
@@ -15,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab", "Lab\Lab.csproj", "{BB9C0F06-D4EA-4618-9DBF-8DB9D46CB4B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GihanSoft.Navigation.Abstraction", "GihanSoft.Navigation.Abstraction\GihanSoft.Navigation.Abstraction.csproj", "{F34A2496-AEFE-43B8-A8BF-8A76057E444A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +33,10 @@ Global
 		{BB9C0F06-D4EA-4618-9DBF-8DB9D46CB4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB9C0F06-D4EA-4618-9DBF-8DB9D46CB4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB9C0F06-D4EA-4618-9DBF-8DB9D46CB4B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34A2496-AEFE-43B8-A8BF-8A76057E444A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34A2496-AEFE-43B8-A8BF-8A76057E444A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34A2496-AEFE-43B8-A8BF-8A76057E444A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34A2496-AEFE-43B8-A8BF-8A76057E444A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
