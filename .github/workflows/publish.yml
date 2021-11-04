@@ -23,6 +23,7 @@ jobs:
         with:
           PROJECT_FILE_PATH: GihanSoft.Navigation.Abstraction/GihanSoft.Navigation.Abstraction.csproj
           NUGET_KEY: ${{secrets.NUGET_KEY}}
+          VERSION_FILE_PATH: Directory.Build.props
       
       - name: publish WPF
         id: publish_nuget_WPF
@@ -35,7 +36,7 @@ jobs:
           # PACKAGE_NAME: Core
 
           # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          # VERSION_FILE_PATH: Directory.Build.props
+          VERSION_FILE_PATH: Directory.Build.props
 
           # Regex pattern to extract version info in a capturing group
           # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
