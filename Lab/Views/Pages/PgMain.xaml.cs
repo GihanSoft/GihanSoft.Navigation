@@ -19,5 +19,10 @@ namespace Lab.Views.Pages
         {
             this.InitializeComponent();
         }
+
+        /// <summary>
+        /// Gets type of page.
+        /// </summary>
+        public override Type Type { get; } = typeof(PgMain);
     }
 }

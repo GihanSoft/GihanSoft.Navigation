@@ -7,6 +7,7 @@
 
 namespace Lab.Views.Pages
 {
+    using System;
     using System.Threading.Tasks;
     using System.Windows.Controls;
 
@@ -23,18 +24,27 @@ namespace Lab.Views.Pages
             this.InitializeComponent();
         }
 
-        /// <inheritdoc/>
-        public override async Task RefreshAsync()
-        {
-            for (int i = 5; i > 0; i--)
-            {
-                this.Dispatcher.Invoke(() => this.Tb.SetCurrentValue(TextBlock.TextProperty, $"{i}..."));
+        /// <summary>
+        /// Gets page type.
+        /// </summary>
+        public override Type Type { get; } = typeof(PgNext);
 
-                await Task.Delay(1000 * 1).ConfigureAwait(false);
+        /// <inheritdoc/>
+        public override void Refresh()
+        {
+            async Task RefreshAsync()
+            {
+                for (int i = 5; i > 0; i--)
+                {
+                    this.Tb.SetCurrentValue(TextBlock.TextProperty, $"{i}...");
+                    await Task.Delay(1000 * 1).ConfigureAwait(true);
+                }
+
+                base.Refresh();
+                this.Tb.SetCurrentValue(TextBlock.TextProperty, "refreshed");
             }
 
-            await base.RefreshAsync().ConfigureAwait(false);
-            this.Dispatcher.Invoke(() => this.Tb.SetCurrentValue(TextBlock.TextProperty, "refreshed"));
+            _ = RefreshAsync();
         }
     }
 }

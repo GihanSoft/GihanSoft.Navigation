@@ -5,6 +5,4 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-
 [assembly: CLSCompliant(true)]

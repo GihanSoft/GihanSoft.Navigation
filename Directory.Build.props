@@ -1,101 +1,82 @@
 <Project>
-	<PropertyGroup>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
 
-		<!--package-->
-		<PackageIcon>GihanSoft.png</PackageIcon>
-		<Version>0.6.0-beta</Version>
-		<Authors>Muhammad Babayi</Authors>
-		<Company>GihanSoft</Company>
-		<Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags>navigation, WPF, XAML</PackageTags>
-		<PackageReleaseNotes>
-			0.6.0-beta:
-			Added abstraction
-		</PackageReleaseNotes>
+        <!--package-->
+        <PackageIcon>GihanSoft.png</PackageIcon>
+        <Version>0.7.0-beta</Version>
+        <Authors>Muhammad Babayi</Authors>
+        <Company>GihanSoft</Company>
+        <Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>navigation, WPF, XAML</PackageTags>
+        <PackageReleaseNotes>
+            breaking changes v0.7.0-beta:
+            * no more async
+            * `GoBackCommand` renamed to `CmdGoBack`
+            * `GoForwardCommand` renamed to `CmdForwardBack`
+        </PackageReleaseNotes>
 
-		<!--disable later-->
-		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-		<!-- analyze -->
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-		<Deterministic>true</Deterministic>
-		<Features>strict</Features>
-		<ReportAnalyzer>true</ReportAnalyzer>
+        <!--disable later-->
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <!-- analyze -->
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+        <Deterministic>true</Deterministic>
+        <Features>strict</Features>
+        <ReportAnalyzer>true</ReportAnalyzer>
+    </PropertyGroup>
 
-		<!--
-			CA2007: Consider calling ConfigureAwait on the awaited task
-			MA0004: Use Task.ConfigureAwait(false) as the current SynchronizationContext is not needed
-			CA1056: Change the type of property 'Url' from 'string' to 'System.Uri'
-			CA1054: Change the type of parameter of the method to allow a Uri to be passed as a 'System.Uri' object
-			CA1055: Change the return type of method from 'string' to 'System.Uri'
-			CC0001: use var
-			SA1000: space after `new`
-		-->
-		<NoWarn>$(NoWarn);CC0001;SA1000</NoWarn>
-		<NoError>$(NoError);CC0001;SA1000</NoError>
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
 
-	</PropertyGroup>
+        <PackageReference Include="WpfAnalyzers" Version="*" Condition="$(UseWPF)=='True'">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-	<ItemGroup>
-		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-	</ItemGroup>
+        <PackageReference Include="AsyncFixer" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-	<ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <PackageReference Include="IDisposableAnalyzers" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="WpfAnalyzers" Version="*" Condition="$(UseWPF)=='True'">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+        <PackageReference Include="Roslynator.Analyzers" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="AsyncFixer" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+        <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="IDisposableAnalyzers" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+        <PackageReference Include="Roslynator.Formatting.Analyzers" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="Roslynator.Analyzers" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+        <PackageReference Include="SecurityCodeScan.VS2019" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
 
-		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-
-		<PackageReference Include="SecurityCodeScan.VS2019" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-
-		<PackageReference Include="StyleCop.Analyzers" Version="*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-
-	</ItemGroup>
+    </ItemGroup>
 </Project>

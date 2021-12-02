@@ -73,10 +73,9 @@ namespace Lab
 
         private async void MainWindow_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            await this.PageNavigator!.GoToAsync<PgMain>().ConfigureAwait(false);
-            await Task.Delay(5000).ConfigureAwait(false);
-            await this.Dispatcher.Invoke(() => this.IPageNavigator!.GoToAsync<PgNext>())
-                .ConfigureAwait(false);
+            PageNavigator!.NavTo<PgMain>();
+            await Task.Delay(5000).ConfigureAwait(true);
+            IPageNavigator!.NavTo<PgNext>();
         }
 
         private void ThrowIfDisposed()

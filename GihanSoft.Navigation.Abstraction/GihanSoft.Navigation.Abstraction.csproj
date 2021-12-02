@@ -1,12 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net5.0-windows;net462</TargetFrameworks>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net462;net48;netcoreapp3.1;net6.0;</TargetFrameworks>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<OutputPath>bin\Debug\</OutputPath>
-		<DocumentationFile>$(OutputPath)net5.0-windows\$(AssemblyName).xml</DocumentationFile>
-	</PropertyGroup>
+    <ItemGroup>
+        <Using Remove="System.Net.Http" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\GihanSoft.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
 
 </Project>
