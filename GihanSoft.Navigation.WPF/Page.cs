@@ -8,7 +8,7 @@ namespace GihanSoft.Navigation.WPF;
 /// <summary>
 /// Page type to use as base of navigation pages.
 /// </summary>
-public abstract class Page : UserControl, IPage
+public class Page : UserControl, IPage
 {
     private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
     {
@@ -48,8 +48,6 @@ public abstract class Page : UserControl, IPage
     {
         this.SetValue(TitleProperty, this.GetType().Name);
     }
-
-    public abstract Type Type { get; }
 
     /// <summary>
     /// Gets or sets title of page.

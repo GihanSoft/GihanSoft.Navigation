@@ -6,11 +6,6 @@
 public interface IPage : IDisposable
 {
     /// <summary>
-    /// Gets type of page.
-    /// </summary>
-    Type Type { get; }
-
-    /// <summary>
     /// Gets title of page.
     /// </summary>
     string? Title { get; }

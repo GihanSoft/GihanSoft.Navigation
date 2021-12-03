@@ -6,11 +6,11 @@
 
         <!--package-->
         <PackageIcon>GihanSoft.png</PackageIcon>
-        <Version>0.7.0-beta</Version>
+        <Version>0.7.1-beta</Version>
         <Authors>Muhammad Babayi</Authors>
         <Company>GihanSoft</Company>
         <Copyright>Copyright (c) 2021 Mohammad Babayi</Copyright>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/GihanSoft/GihanSoft.Navigation</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>navigation, WPF, XAML</PackageTags>
