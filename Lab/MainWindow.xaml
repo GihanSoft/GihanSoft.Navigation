@@ -37,11 +37,11 @@
                     <Button
                         Name="BtnBack"
                         Content="&lt;="
-                        Command="{Binding GoBackCommand}" />
+                        Command="{Binding CmdNavBack}" />
                     <Button
                         Name="BtnForward"
                         Content="=>"
-                        Command="{Binding GoForwardCommand}" />
+                        Command="{Binding CmdNavForward}" />
                 </StackPanel>
                 <ContentControl
                     Grid.Column="1"

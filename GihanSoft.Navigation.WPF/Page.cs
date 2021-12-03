@@ -1,129 +1,119 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Page.cs" company="GihanSoft">
-// Copyright (c) 2021 GihanSoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using System.Windows;
+using System.Windows.Controls;
 
-namespace GihanSoft.Navigation.WPF
+using GihanSoft.Navigation.Abstraction;
+
+namespace GihanSoft.Navigation.WPF;
+
+/// <summary>
+/// Page type to use as base of navigation pages.
+/// </summary>
+public abstract class Page : UserControl, IPage
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
+    private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
+    {
+        if (d is Page page && page.disposedValue)
+        {
+            throw new ObjectDisposedException(nameof(Page));
+        }
+    };
 
-    using GihanSoft.Navigation.Abstraction;
+    /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(string),
+        typeof(Page),
+        new PropertyMetadata(default(string), ThrowOnDisposed));
+
+    /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
+    public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
+        nameof(LeftToolBar),
+        typeof(ToolBar),
+        typeof(Page),
+        new(default(ToolBar), ThrowOnDisposed));
+
+    /// <summary>Identifies the <see cref="RightToolBar"/> dependency property.</summary>
+    public static readonly DependencyProperty RightToolBarProperty = DependencyProperty.Register(
+        nameof(RightToolBar),
+        typeof(ToolBar),
+        typeof(Page),
+        new(default(ToolBar), ThrowOnDisposed));
+
+    private bool disposedValue;
 
     /// <summary>
-    /// Page type to use as base of navigation pages.
+    /// Initializes a new instance of the <see cref="Page"/> class.
     /// </summary>
-    public class Page : UserControl, IPage
+    protected Page()
     {
-        private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
+        this.SetValue(TitleProperty, this.GetType().Name);
+    }
+
+    public abstract Type Type { get; }
+
+    /// <summary>
+    /// Gets or sets title of page.
+    /// </summary>
+    public virtual string? Title
+    {
+        get => (string?)this.GetValue(TitleProperty);
+        set => this.SetValue(TitleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets left tool bar of page.
+    /// </summary>
+    public virtual ToolBar? LeftToolBar
+    {
+        get => (ToolBar?)this.GetValue(LeftToolBarProperty);
+        set => this.SetValue(LeftToolBarProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets right tool bar of page.
+    /// </summary>
+    public virtual ToolBar? RightToolBar
+    {
+        get => (ToolBar?)this.GetValue(RightToolBarProperty);
+        set => this.SetValue(RightToolBarProperty, value);
+    }
+
+    /// <summary>
+    /// refresh page. called after navigation and going back and forward.
+    /// </summary>
+    /// <returns>task of refresh.</returns>
+    public virtual void Refresh()
+    {
+        if (this.disposedValue)
         {
-            if (d is Page page && page.disposedValue)
+            throw new ObjectDisposedException(nameof(Page));
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        this.Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// dispose page.
+    /// </summary>
+    /// <param name="disposing">true to dispose managed types.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!this.disposedValue)
+        {
+            if (disposing)
             {
-                throw new ObjectDisposedException(nameof(Page));
-            }
-        };
-
-        /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-            nameof(Title),
-            typeof(string),
-            typeof(Page),
-            new PropertyMetadata(default(string?), ThrowOnDisposed));
-
-        /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
-            nameof(LeftToolBar),
-            typeof(ToolBar),
-            typeof(Page),
-            new(default(ToolBar), ThrowOnDisposed));
-
-        /// <summary>Identifies the <see cref="RightToolBar"/> dependency property.</summary>
-        public static readonly DependencyProperty RightToolBarProperty = DependencyProperty.Register(
-            nameof(RightToolBar),
-            typeof(ToolBar),
-            typeof(Page),
-            new(default(ToolBar), ThrowOnDisposed));
-
-        private bool disposedValue;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Page"/> class.
-        /// </summary>
-        public Page()
-        {
-            this.SetValue(TitleProperty, this.GetType().Name);
-        }
-
-        /// <summary>
-        /// Gets or sets title of page.
-        /// </summary>
-        public virtual string? Title
-        {
-            get => (string?)this.GetValue(TitleProperty);
-            set => this.SetValue(TitleProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets left tool bar of page.
-        /// </summary>
-        public virtual ToolBar? LeftToolBar
-        {
-            get => (ToolBar?)this.GetValue(LeftToolBarProperty);
-            set => this.SetValue(LeftToolBarProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets right tool bar of page.
-        /// </summary>
-        public virtual ToolBar? RightToolBar
-        {
-            get => (ToolBar?)this.GetValue(RightToolBarProperty);
-            set => this.SetValue(RightToolBarProperty, value);
-        }
-
-        /// <summary>
-        /// refresh page. called after navigation and going back and forward.
-        /// </summary>
-        /// <returns>task of refresh.</returns>
-        public virtual Task RefreshAsync()
-        {
-            if (this.disposedValue)
-            {
-                throw new ObjectDisposedException(nameof(Page));
+                // TO DO: dispose managed state (managed objects)
             }
 
-            return Task.CompletedTask;
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            this.Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// dispose page.
-        /// </summary>
-        /// <param name="disposing">true to dispose managed types.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposedValue)
-            {
-                if (disposing)
-                {
-                    // TO DO: dispose managed state (managed objects)
-                }
-
-                // TO DO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TO DO: set large fields to null
-                this.disposedValue = true;
-            }
+            // TO DO: free unmanaged resources (unmanaged objects) and override finalizer
+            // TO DO: set large fields to null
+            this.disposedValue = true;
         }
     }
 }
