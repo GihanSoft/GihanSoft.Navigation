@@ -35,7 +35,7 @@ public class PageNavigator : DispatcherObject, IPageNavigator
         CmdNavBackUntil = new ActionCommand<IPage>(NavBackUntil, _ => CanNavBack);
         CmdNavForward = new ActionCommand(NavForward, () => CanNavForward);
         CmdNavForwardUntil = new ActionCommand<IPage>(NavForwardUntil, _ => CanNavForward);
-        CmdNavTo = new ActionCommand<Type>(pageType => NavTo(pageType), _ => true);
+        CmdNavTo = new ActionCommand<Type>(NavTo, _ => true);
     }
 
     /// <inheritdoc/>
@@ -151,15 +151,15 @@ public class PageNavigator : DispatcherObject, IPageNavigator
             throw new ArgumentNullException(nameof(pageType));
         }
 
-        if (!pageType.IsSubclassOf(typeof(Page)))
+        IPage page = Dispatcher.Invoke(() =>
+            (IPage)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, pageType));
+
+        if (page is not Page pg)
         {
             throw new ArgumentException("invalid type", nameof(pageType));
         }
 
-        Page page = Dispatcher.Invoke(() =>
-            (Page)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, pageType));
-
-        if (!TryNavTo(page))
+        if (!TryNavTo(pg))
         {
             page.Dispose();
         }
@@ -283,6 +283,8 @@ public class PageNavigator : DispatcherObject, IPageNavigator
         PropertyChanged?.Invoke(this, new(nameof(CanNavForward)));
 
         (CmdNavBack as ActionCommand)?.OnCanExecuteChanged();
+        (CmdNavBackUntil as ActionCommand)?.OnCanExecuteChanged();
         (CmdNavForward as ActionCommand)?.OnCanExecuteChanged();
+        (CmdNavForwardUntil as ActionCommand)?.OnCanExecuteChanged();
     }
 }
