@@ -15,5 +15,4 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition(
     "http://gihansoft.ir/netfx/xaml/navigation",
     "GihanSoft.Navigation.WPF")]
-
 [assembly: XmlnsPrefix("http://gihansoft.ir/netfx/xaml/navigation", "gnav")]

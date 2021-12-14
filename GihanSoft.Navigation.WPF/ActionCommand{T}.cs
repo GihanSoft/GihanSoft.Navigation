@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+
 namespace GihanSoft.Navigation.WPF;
 
 /// <summary>

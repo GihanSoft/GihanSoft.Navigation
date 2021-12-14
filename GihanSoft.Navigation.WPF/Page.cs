@@ -11,12 +11,12 @@ namespace GihanSoft.Navigation.WPF;
 public class Page : UserControl, IPage
 {
     private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
-    {
-        if (d is Page page && page.disposedValue)
-        {
-            throw new ObjectDisposedException(nameof(Page));
-        }
-    };
+       {
+           if (d is Page page && page.disposedValue)
+           {
+               throw new ObjectDisposedException(nameof(Page));
+           }
+       };
 
     /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
@@ -24,20 +24,6 @@ public class Page : UserControl, IPage
         typeof(string),
         typeof(Page),
         new PropertyMetadata(default(string), ThrowOnDisposed));
-
-    /// <summary>Identifies the <see cref="LeftToolBar"/> dependency property.</summary>
-    public static readonly DependencyProperty LeftToolBarProperty = DependencyProperty.Register(
-        nameof(LeftToolBar),
-        typeof(ToolBar),
-        typeof(Page),
-        new(default(ToolBar), ThrowOnDisposed));
-
-    /// <summary>Identifies the <see cref="RightToolBar"/> dependency property.</summary>
-    public static readonly DependencyProperty RightToolBarProperty = DependencyProperty.Register(
-        nameof(RightToolBar),
-        typeof(ToolBar),
-        typeof(Page),
-        new(default(ToolBar), ThrowOnDisposed));
 
     private bool disposedValue;
 
@@ -56,24 +42,6 @@ public class Page : UserControl, IPage
     {
         get => (string?)this.GetValue(TitleProperty);
         set => this.SetValue(TitleProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets left tool bar of page.
-    /// </summary>
-    public virtual ToolBar? LeftToolBar
-    {
-        get => (ToolBar?)this.GetValue(LeftToolBarProperty);
-        set => this.SetValue(LeftToolBarProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets right tool bar of page.
-    /// </summary>
-    public virtual ToolBar? RightToolBar
-    {
-        get => (ToolBar?)this.GetValue(RightToolBarProperty);
-        set => this.SetValue(RightToolBarProperty, value);
     }
 
     /// <summary>
