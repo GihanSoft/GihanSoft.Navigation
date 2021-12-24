@@ -10,13 +10,13 @@ namespace GihanSoft.Navigation.WPF;
 /// </summary>
 public class Page : UserControl, IPage
 {
-    private static readonly PropertyChangedCallback ThrowOnDisposed = (d, _) =>
-       {
-           if (d is Page page && page.disposedValue)
-           {
-               throw new ObjectDisposedException(nameof(Page));
-           }
-       };
+    private static void ThrowOnDisposed(DependencyObject d, DependencyPropertyChangedEventArgs _)
+    {
+        if (d is Page page && page.disposedValue)
+        {
+            throw new ObjectDisposedException(nameof(Page));
+        }
+    }
 
     /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
