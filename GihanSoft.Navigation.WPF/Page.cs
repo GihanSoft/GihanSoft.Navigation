@@ -18,12 +18,16 @@ public class Page : UserControl, IPage
         }
     }
 
+#pragma warning disable WPF0005 // Name of PropertyChangedCallback should match registered name
+
     /// <summary>Identifies the <see cref="Title"/> dependency property.</summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
         nameof(Title),
         typeof(string),
         typeof(Page),
         new PropertyMetadata(default(string), ThrowOnDisposed));
+
+#pragma warning restore WPF0005 // Name of PropertyChangedCallback should match registered name
 
     private bool disposedValue;
 
